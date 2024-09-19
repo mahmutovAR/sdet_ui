@@ -38,14 +38,38 @@ and [Allure](https://allurereport.org/docs/install/) installed on your operating
 ***
 
 
-## Test UI
-Run the `run_task_ui.py`
+## Run `run_task_ui.py` to test the BankingProject
+The `pytest-xdist` plugin extends `pytest` to speed up test execution,  
+and `allure-pytest` is used for visualizing the results of a test run.
+
+### First `pytest` runs 3 test cases in parallel
+```
+pytest tests/ -n 3 --alluredir=allure-results --clean-alluredir
+```
+
+### An `environment.properties` file is then created with information about the environment
+```
+os_platform = Linux
+os_release = 6.8.0-40-generic
+os_version = Ubuntu 24.04 LTS
+python_version = Python 3.10.14
+```
+
+### Finally, `allure` converts the test results into an HTML report
+```
+allure generate allure-report --clean --single-file allure-results
+```
+
+### And opens it in default browser
+```
+webbrowser.open('index.html')
+```
 ***
 
 
 ### Files and directories:
-- `allure-report/index.html` allure report directory
-- `allure_files/` test results directory  
+- `allure-report/index.html` allure report
+- `allure-results/` test results directory  
 **Note:** These directories will be created after running `run_task_ui.py`
 
 * `tests/` test modules
