@@ -30,23 +30,23 @@ from pages import AddCustomerPage, CustomersPage
     Expected result:
         - the new Customer added
         - data in the Customers table corresponds to the entered""")
-def test_add_customer(set_up_browser: fixture, get_generated_data: fixture, get_all_customers: fixture):
+def test_add_customer(browser: fixture, form_data: fixture, all_customers: fixture):
     with allure.step('Open "Banking Project" url'):
-        add_customer_page = AddCustomerPage(set_up_browser)
+        add_customer_page = AddCustomerPage(browser)
         add_customer_page.open_url()
 
     with allure.step('Open "Add Customer" form'):
         add_customer_page.go_to_form_page()
 
     with allure.step('Fill in "First Name" field'):
-        add_customer_page.enter_first_name(get_generated_data['first_name'])
+        add_customer_page.enter_first_name(form_data['first_name'])
 
     with allure.step('Fill in "Last Name" field'):
-        add_customer_page.enter_last_name(get_generated_data['last_name'])
+        add_customer_page.enter_last_name(form_data['last_name'])
 
     with allure.step('Fill in "Post Code" field'):
-        add_customer_page.enter_post_code(get_generated_data['post_code'])
-        allure.attach(set_up_browser.get_screenshot_as_png(),
+        add_customer_page.enter_post_code(form_data['post_code'])
+        allure.attach(browser.get_screenshot_as_png(),
                       name="Add Customer page",
                       attachment_type=AttachmentType.PNG)
 
@@ -54,18 +54,18 @@ def test_add_customer(set_up_browser: fixture, get_generated_data: fixture, get_
         add_customer_page.submit_data()
 
     with allure.step('Close information window'):
-        set_up_browser.switch_to.alert.accept()
+        browser.switch_to.alert.accept()
 
     with allure.step('Open "Customers" tab'):
-        customers_page = CustomersPage(set_up_browser)
+        customers_page = CustomersPage(browser)
         customers_page.go_to_page()
 
     with allure.step('Find and check submitted data'):
-        customers_page.search_customer(get_generated_data['first_name'])
-        allure.attach(set_up_browser.get_screenshot_as_png(),
+        customers_page.search_customer(form_data['first_name'])
+        allure.attach(browser.get_screenshot_as_png(),
                       name="Customers page",
                       attachment_type=AttachmentType.PNG)
-        assert get_customer_data(set_up_browser, get_all_customers) == get_generated_data
+        assert get_customer_data(browser, all_customers) == form_data
 
     with allure.step('Delete submitted data'):
         customers_page.delete_customer()

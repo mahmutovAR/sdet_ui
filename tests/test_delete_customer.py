@@ -24,23 +24,23 @@ from pages import CustomersPage
         
     Expected result:
         - Customer with a name length close to average was deleted""")
-def test_sort_customers(set_up_browser: fixture, get_all_customers: fixture):
+def test_sort_customers(browser: fixture, all_customers: fixture):
     with allure.step('Open "Banking Project" url'):
-        customers_page = CustomersPage(set_up_browser)
+        customers_page = CustomersPage(browser)
         customers_page.open_url()
 
     with allure.step('Open "Customers" tab'):
-        customers_page = CustomersPage(set_up_browser)
+        customers_page = CustomersPage(browser)
         customers_page.go_to_page()
         customers_page.table_is_visible()
-        allure.attach(set_up_browser.get_screenshot_as_png(),
+        allure.attach(browser.get_screenshot_as_png(),
                       name="Customers page",
                       attachment_type=AttachmentType.PNG)
 
     with allure.step('Find the first Customer with the name length closest to the average'):
-        customer_to_delete = determine_customer_to_delete(set_up_browser, get_all_customers)
+        customer_to_delete = determine_customer_to_delete(browser, all_customers)
         customers_page.search_customer(customer_to_delete)
-        allure.attach(set_up_browser.get_screenshot_as_png(),
+        allure.attach(browser.get_screenshot_as_png(),
                       name="Customer to delete",
                       attachment_type=AttachmentType.PNG)
 
@@ -48,7 +48,7 @@ def test_sort_customers(set_up_browser: fixture, get_all_customers: fixture):
         customers_page.delete_customer()
 
     with allure.step('Check that the Customer was deleted'):
-        allure.attach(set_up_browser.get_screenshot_as_png(),
+        allure.attach(browser.get_screenshot_as_png(),
                       name="Customer was deleted",
                       attachment_type=AttachmentType.PNG)
 

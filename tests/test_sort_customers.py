@@ -23,30 +23,30 @@ from pages import CustomersPage
         
     Expected result:
         - customers are sorted be First Name""")
-def test_sort_customers(set_up_browser: fixture, get_all_customers: fixture):
+def test_sort_customers(browser: fixture, all_customers: fixture):
     with allure.step('Open "Banking Project" url'):
-        customers_page = CustomersPage(set_up_browser)
+        customers_page = CustomersPage(browser)
         customers_page.open_url()
 
     with allure.step('Open "Customers" tab'):
-        customers_page = CustomersPage(set_up_browser)
+        customers_page = CustomersPage(browser)
         customers_page.go_to_page()
         customers_page.table_is_visible()
-        allure.attach(set_up_browser.get_screenshot_as_png(),
+        allure.attach(browser.get_screenshot_as_png(),
                       name="Customers page",
                       attachment_type=AttachmentType.PNG)
 
     with allure.step('Sort Customers by First Name'):
         customers_page.sort_customers_by_first_name()
-        if not customers_are_sorted(set_up_browser, get_all_customers):
-            allure.attach(set_up_browser.get_screenshot_as_png(),
+        if not customers_are_sorted(browser, all_customers):
+            allure.attach(browser.get_screenshot_as_png(),
                           name="Customers are sorted in reverse order",
                           attachment_type=AttachmentType.PNG)
             customers_page.sort_customers_by_first_name()
 
     with allure.step('Check that Customers are sorted by First Name'):
-        assert customers_are_sorted(set_up_browser, get_all_customers)
-        allure.attach(set_up_browser.get_screenshot_as_png(),
+        assert customers_are_sorted(browser, all_customers)
+        allure.attach(browser.get_screenshot_as_png(),
                       name="Customers are sorted",
                       attachment_type=AttachmentType.PNG)
 
