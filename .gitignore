@@ -1,16 +1,15 @@
-# Default ignored files
-/shelf/
-/workspace.xml
-
 .idea/*
-logs/*
+.idea
+
 
 __pycache__/*
 **/__pycache__/*
 *.pyc
-
+.pytest_cache/
 .env
 .venv
 env/
 venv/
 ENV/
+allure-results/
+allure-report/
